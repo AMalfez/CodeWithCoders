@@ -11,7 +11,7 @@ export default function Home() {
       <Navigation />
       <div className="w-screen h-screen">
         <div className="w-full h-full flex flex-row justify-center items-center text-white p-0">
-          <div>hello</div>
+          <div className="text-black">Book your ticket now</div>
         </div>
       </div>
     </main>

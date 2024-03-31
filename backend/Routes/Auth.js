@@ -45,8 +45,9 @@ AuthRoute.post("/login", async (req, res) => {
   }
 });
 
-AuthRoute.post("/signup", verifyOTP, async (req, res) => {
-  const { name, email, password, phone, address } = req.body;
+AuthRoute.post("/signup", async (req, res) => {
+  // AuthRoute.post("/signup", verifyOTP, async (req, res) => {
+  const { name, email, password, phone } = req.body;
   const user = await User.findOne({email});
   if (req.cookies.jsonwebtoken) res.clearCookie("jsonwebtoken");
   if(user) res.send("user already exist").status(404);
@@ -62,9 +63,8 @@ AuthRoute.post("/signup", verifyOTP, async (req, res) => {
           const result = await User.create({
             name,
             email,
-            phone,
-            password: hash,
-            address,
+            phone:parseInt(phone),
+            password: hash
           });
           //include payment here
           const jsonwebtoken = sign(
