@@ -9,22 +9,24 @@ function Navbar() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
-  function handleSplit() {
+  async function handleSplit() {
     const parts = Location.split(",");
     if (parts.length === 2) {
-      setLatitude(parseFloat(parts[0]));
-      setLongitude(parseFloat(parts[1]));
-      return true;
+      const latitude = parseFloat(parts[0]);
+      const longitude = parseFloat(parts[1]);
+      return { latitude, longitude };
     } else {
       alert("Invalid input. Please enter a string with a comma.");
-      return false;
+      return null;
     }
   }
   async function searchLocation() {
-    const geocodes = handleSplit();
-    if (geocodes === false) {
-      return;
+    const geocodes = await handleSplit(location);
+    if (!geocodes) {
+      console.log("Invalid input");
+      return [];
     }
+    const { latitude, longitude } = geocodes;
     // const latitude = 26.79;
     // const longitude = 82.19;
     console.log(latitude, longitude);
