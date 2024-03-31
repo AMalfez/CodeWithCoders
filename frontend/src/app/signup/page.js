@@ -15,27 +15,30 @@ const SignUp = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
-  const handleSignUp = async () => {
+  const handleSignUp = async (evt) => {
+    evt.preventDefault();
     if (!name || !password || !email || !contact || !confirmPassword) {
       return "all fields are necessary";
     }
     const isvalid = isValidEmail(email);
     if (isvalid === false) {
-      return "please enter a valid email address";
+      console.log( "please enter a valid email address");
+      return;
     }
     if (password !== confirmPassword) {
-      return "please check your password";
+      console.log("please check your password");
+      return;
     }
     const Data = {
       name: name,
-      contact: contact,
+      phone: contact,
       email: email,
       password: password,
     };
     try {
       const response = await axios({
-        methond: "POST",
-        url: "url here", //url for post request
+        method: "POST",
+        url: "http://localhost:5000/auth/signup", //url for post request
         data: Data,
         withCredentials: true,
       });
@@ -63,7 +66,7 @@ const SignUp = () => {
           <form className="space-y-2">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="name"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Name
@@ -72,7 +75,7 @@ const SignUp = () => {
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  type="email"
+                  type="text"
                   // autocomplete="email"
                   required
                   className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
@@ -99,7 +102,7 @@ const SignUp = () => {
             </div>
             <div>
               <label
-                htmlFor="email"
+                htmlFor="phone"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Contact Number
@@ -108,7 +111,7 @@ const SignUp = () => {
                 <input
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
-                  type="email"
+                  type="number"
                   // autocomplete="email"
                   required
                   className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -157,7 +160,7 @@ const SignUp = () => {
             </div>
             <div>
               <button
-                onClick={handleSignUp}
+                onClick={(e)=>handleSignUp(e)}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
