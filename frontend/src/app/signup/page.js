@@ -26,14 +26,14 @@ const SignUp = () => {
     }
     const Data = {
       name: name,
-      contact: contact,
+      phone: contact,
       email: email,
       password: password,
     };
     try {
       const response = await axios({
         methond: "POST",
-        url: "url here", //url for post request
+        url: "http://localhost:5000/auth/signup", //url for post request
         data: Data,
         withCredentials: true,
       });
