@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const AuthRoute = require("./Routes/Auth");
 const mongoose = require("mongoose");
+const PaymentRoute = require("./Routes/Payment");
 app.enable("trust proxy");
 
 mongoose.set("strictQuery", false);
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", AuthRoute);
+app.use("/payment", PaymentRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("Listening.");
