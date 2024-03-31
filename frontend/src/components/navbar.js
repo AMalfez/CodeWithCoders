@@ -1,8 +1,56 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useContext, useState } from "react";
+import AuthContext from "@/context/authContext";
+import axios from "axios";
 
 function Navbar() {
+  const { user, setTempleData } = useContext(AuthContext);
   const [Location, setLocation] = useState("");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
+  function handleSplit() {
+    const parts = Location.split(",");
+    if (parts.length === 2) {
+      setLatitude(parseFloat(parts[0]));
+      setLongitude(parseFloat(parts[1]));
+      return true;
+    } else {
+      alert("Invalid input. Please enter a string with a comma.");
+      return false;
+    }
+  }
+  async function searchLocation() {
+    const geocodes = handleSplit();
+    if (geocodes === false) {
+      return;
+    }
+    // const latitude = 26.79;
+    // const longitude = 82.19;
+    console.log(latitude, longitude);
+    const radius = 5000;
+    const categoryId = "52e81612bcbc57f1066b7a3f";
+    const url = `https://api.foursquare.com/v3/places/search?ll=${latitude}%2C${longitude}&radius=${radius}&categories=${categoryId}`;
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: process.env.api_key,
+      },
+    };
+
+    try {
+      const response = await axios(url, options);
+      if (response) {
+        setTempleData(response.data.results);
+        return response.data.results;
+      }
+    } catch (error) {
+      console.error("Error fetching temple details:", error);
+      return [];
+    }
+  }
+
   return (
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
@@ -30,9 +78,15 @@ function Navbar() {
             onChange={(e) => {
               setLocation(e.target.value);
             }}
-            placeholder="search temple"
-            className="text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0 outline-none mx-2"
+            placeholder="latitude , longitude"
+            className="text-sm px-4 py-2 leading-none border rounded text-teal-500 border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0 outline-none lg:mx-2"
           />
+          <button
+            onClick={searchLocation}
+            className="bg-transparent text-white border-white"
+          >
+            search
+          </button>
         </div>
       </div>
     </nav>
