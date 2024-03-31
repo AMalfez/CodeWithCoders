@@ -6,4 +6,5 @@ const PaymentSchema = new mongoose.Schema({
     address:{type:String, required:true},
 })
 
-export const Payments = mongoose.model('Payments', PaymentSchema);
+const Payments = mongoose.model('Payments', PaymentSchema);
+module.exports = {Payments}
