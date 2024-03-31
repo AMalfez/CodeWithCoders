@@ -4,9 +4,10 @@ import AuthContext from "./authContext";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState([]);
+  const [templeData,setTempleData] = useState([])
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, setUser,templeData,setTempleData }}>
       {children}
     </AuthContext.Provider>
   );
