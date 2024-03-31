@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import temple from "../../assets/temple.svg";
-import { redirect } from 'next/navigation'
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -16,7 +15,6 @@ const SignUp = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
-
   const handleSignUp = async (evt) => {
     evt.preventDefault();
     if (!name || !password || !email || !contact || !confirmPassword) {
@@ -37,16 +35,19 @@ const SignUp = () => {
       email: email,
       password: password,
     };
-    axios({
-      method: "POST",
-      url: "http://localhost:5000/auth/signup", //url for post request
-      data: Data,
-      withCredentials: true,
-    }).then((result)=>{
-      if(result){
-        redirect('/dashboard')
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "http://localhost:5000/auth/signup", //url for post request
+        data: Data,
+        withCredentials: true,
+      });
+      if (response) {
+        // redirect to dashboard
       }
-    }).catch(err=>console.log(err));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
