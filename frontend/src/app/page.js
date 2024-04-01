@@ -19,11 +19,11 @@ export default function Home() {
       <Navigation />
       <div className="w-screen h-screen bg-gradient-to-r from-cyan-300 to-blue-300">
         <div className="w-full h-full flex flex-row justify-center items-center text-white p-0">
-          <div className="text-6xl text-slate-50 font-bold">
+          {/* <div className="text-6xl text-slate-50 font-bold">
             Book your spiritual journey now
-          </div>
+          </div> */}
           <div className="w-screen min-h-screen h-auto py-5">
-            <div className="w-full h-auto flex flex-col justify-center lg:flex-row lg:flex-wrap items-center text-white p-0 lg:p-6 gap-3">
+            <div className="w-full h-auto flex flex-row flex-wrap justify-center lg:flex-row lg:flex-wrap items-center text-white p-0 lg:p-6 gap-3">
               {templeData.map((temple, index) => {
                 return (
                   <div
@@ -44,7 +44,7 @@ export default function Home() {
                     </div>
                     <div>
                       <button className="flex w-20 h-8 justify-center rounded-md bg-teal-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
-                        Book ticket
+                        Book
                       </button>
                     </div>
                   </div>

@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
-import Image from "next/image";
-import temple from "../../assets/temple.svg";
+import AuthContext from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
+  const router = useRouter();
+  const { setUser } = useContext(AuthContext);
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
@@ -15,14 +17,14 @@ const SignUp = () => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   }
-  const handleSignUp = async (evt) => {
-    evt.preventDefault();
+  const handleSignUp = async (e) => {
+    e.preventDefault();
     if (!name || !password || !email || !contact || !confirmPassword) {
       return "all fields are necessary";
     }
     const isvalid = isValidEmail(email);
     if (isvalid === false) {
-      console.log( "please enter a valid email address");
+      console.log("please enter a valid email address");
       return;
     }
     if (password !== confirmPassword) {
@@ -42,8 +44,11 @@ const SignUp = () => {
         data: Data,
         withCredentials: true,
       });
+      console.log(response.data);
+      setUser([response.data]);
+      router.push("/dashboard");
       if (response) {
-        // redirect to dashboard
+        console.log(response);
       }
     } catch (e) {
       console.log(e);
@@ -160,7 +165,7 @@ const SignUp = () => {
             </div>
             <div>
               <button
-                onClick={(e)=>handleSignUp(e)}
+                onClick={(e) => handleSignUp(e)}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
