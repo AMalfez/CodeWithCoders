@@ -56,9 +56,7 @@ function Navbar() {
   return (
     <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
-        <span className="font-semibold text-xl tracking-tight">
-          Templ
-        </span>
+        <span className="font-semibold text-xl tracking-tight">Templ</span>
       </div>
       <div className="block lg:hidden">
         <button className="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
@@ -107,10 +105,10 @@ function Navbar() {
         </div>
         <div>
           {user.length > 0 ? (
-            <div>
-              <div>{user[0].name}</div>
+            <div className="flex flex-row">
+              <div className="text-white mx-1">{user[0].name}</div>
               <img
-                class="h-8 w-8 rounded-full"
+                className="h-8 w-8 rounded-full"
                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                 alt=""
               />

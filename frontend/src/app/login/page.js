@@ -2,14 +2,17 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "@/context/authContext";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const router = useRouter();
   const { setUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     if (!email || !password) {
       return "please enter all the details";
     }
@@ -20,13 +23,12 @@ const Login = () => {
     try {
       const response = await axios({
         method: "POST",
-        url: "http://localhost:3000/login",
+        url: "http://localhost:5000/auth/login",
         data: Data,
       });
-      if (response) {
-        setUser(response.data.user);
-        return redirect("/dashboard");
-      }
+      console.log(response.data);
+      setUser([response.data]);
+      router.push("/dashboard");
     } catch (e) {
       console.log(e);
     }
