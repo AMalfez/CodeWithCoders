@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import AuthContext from "@/context/authContext";
 import axios from "axios";
 
-function Navbar() {
+function Navbar({search}) {
   const { user, setTempleData } = useContext(AuthContext);
   const [Location, setLocation] = useState("");
   const [latitude, setLatitude] = useState("");
@@ -85,7 +85,7 @@ function Navbar() {
             Payments
           </a>
         </div>
-        <div className="w-1/4 flex flex-1 lg:justify-center">
+        {search&&<div className="w-1/4 flex flex-1 lg:justify-center">
           {" "}
           <input
             type="search"
@@ -102,7 +102,7 @@ function Navbar() {
           >
             search
           </button>
-        </div>
+        </div>}
         <div>
           {user.length > 0 ? (
             <div className="flex flex-row">
@@ -114,7 +114,7 @@ function Navbar() {
               />
             </div>
           ) : (
-            <div className="flex flex-col lg:flex-row ">
+            <div className="flex flex-col lg:flex-row">
               <a
                 href="/login"
                 className="w-24 inline-block text-sm px-4 py-2 leading-none border rounded bg-white text-teal-500 border-white hover:border-white hover:text-white hover:bg-transparent mt-4 lg:mt-0 lg:mx-1"

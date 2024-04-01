@@ -1,13 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const PaymentRoute = express.Router();
-const { Payment } = require("../Schemas/PaymentSchema");
+const { Payments } = require("../Schemas/PaymentSchema");
 const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_KEY);
 
 PaymentRoute.post("/create-checkout-session", async (req, res) => {
-  const { place, date, price } = req.body;
-  console.log(req.body);
+  const { place, date, price, userId } = req.body;
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -15,7 +14,6 @@ PaymentRoute.post("/create-checkout-session", async (req, res) => {
           currency: "inr",
           product_data: {
             name: `Ticker for ${place}`,
-            // date: ""+date
           },
           unit_amount: price * 100,
         },
@@ -23,7 +21,7 @@ PaymentRoute.post("/create-checkout-session", async (req, res) => {
       },
     ],
     mode: "payment",
-    success_url: `${process.env.CLIENT_URL}/success`,
+    success_url: `${process.env.CLIENT_URL}/success?place=${place}&date=${date}&price=${price}&userId=${userId}`,
     cancel_url: `${process.env.CLIENT_URL}/cancel`,
   });
 
@@ -31,14 +29,13 @@ PaymentRoute.post("/create-checkout-session", async (req, res) => {
 });
 
 PaymentRoute.post("/success", async (req, res) => {
-    const {place, userId, date, price, QRLink} = req.body;
+    const {place, userId, date, price} = req.body;
   try {
-    const payment = await Payment.create({
+    const payment = await Payments.create({
         userId,
         DateOfVisit:date,
         place,
         price,
-        QRLink,
         payment_status:true
     })
     res.send(payment).status(200)

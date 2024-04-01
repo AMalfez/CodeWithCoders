@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const AuthRoute = require("./Routes/Auth");
 const mongoose = require("mongoose");
 const PaymentRoute = require("./Routes/Payment");
+const TicketRoute = require("./Routes/Ticket");
 app.enable("trust proxy");
 
 mongoose.set("strictQuery", false);
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", AuthRoute);
 app.use("/payment", PaymentRoute);
+app.use("/ticket",TicketRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("Listening.");

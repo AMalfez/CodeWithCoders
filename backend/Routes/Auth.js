@@ -89,6 +89,7 @@ AuthRoute.post("/signup", async (req, res) => {
 AuthRoute.post("/verify-email", sendOTP);
 
 AuthRoute.get("/", (req, res) => {
+  console.log(req.cookies);
   if (req.cookies.jsonwebtoken) {
     const token = req.cookies.jsonwebtoken;
     verify(token, `${process.env.SECRET}`, async (err, decoded) => {
