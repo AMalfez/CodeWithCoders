@@ -3,12 +3,31 @@ import Navigation from "@/components/navbar";
 import AuthContext from "@/context/authContext";
 import { useState } from "react";
 import { useContext } from "react";
+import {loadStripe} from '@stripe/stripe-js'
 
 export default function Home() {
   const { templeData, user } = useContext(AuthContext);
-  // const [renderId, setRenderId] = useState(1);
+  const [renderId, setRenderId] = useState(1);
   const [templeToVisit, setTempleToVisit] = useState([]);
-
+const makePayment = async(temple)=>{
+  const stripe = await loadStripe('pk_test_51NHidkSCTsJY5ezVf5fpcafUVIq0ATRMxBUN8905m9fvSNV3jaZ9mbIKS41IFiOKe7zlYtbg2yIqUXFebRAyZShP00vTIBFHnS')
+  // const body = {
+  //   products: temple
+  // }
+  const header = {
+    "Content-Type":"application/json"
+  }
+  const response = await fetch('http://localhost:5000/payment/create-checkout-session',{
+    method:"POST",
+    headers:header,
+    body:JSON.stringify(temple)
+  })
+  const session = await response.json();
+  const result = stripe.redirectToCheckout({
+    sessionId:session.id
+  })
+  if(result.error) console.log(result.error);
+}
   const handleTempleSelection = (index) => {
     setRenderId(2);
     setTempleToVisit([templeData[index]]);
@@ -17,6 +36,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Navigation />
+
       <div className="w-screen h-screen bg-gradient-to-r from-cyan-300 to-blue-300">
         <div className="w-full h-full flex flex-row justify-center items-center text-white p-0">
           {/* <div className="text-6xl text-slate-50 font-bold">
@@ -53,6 +73,7 @@ export default function Home() {
               <div>hello</div>
             </div>
           </div>
+
         </div>
       </div>
     </main>

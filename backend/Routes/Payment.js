@@ -7,7 +7,7 @@ const stripe = Stripe(process.env.STRIPE_KEY);
 
 PaymentRoute.post("/create-checkout-session", async (req, res) => {
   const { place, date, price } = req.body;
-
+  console.log(req.body);
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -15,7 +15,7 @@ PaymentRoute.post("/create-checkout-session", async (req, res) => {
           currency: "inr",
           product_data: {
             name: `Ticker for ${place}`,
-            date
+            // date: ""+date
           },
           unit_amount: price * 100,
         },
@@ -27,7 +27,7 @@ PaymentRoute.post("/create-checkout-session", async (req, res) => {
     cancel_url: `${process.env.CLIENT_URL}/cancel`,
   });
 
-  res.send({ url: session.url });
+  res.json({ id: session.id });
 });
 
 PaymentRoute.post("/success", async (req, res) => {
