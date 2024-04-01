@@ -1,7 +1,7 @@
 require("dotenv").config();
-const {
-  sendOTP, verifyOTP
-} = require("../MiddleWares/OTP");
+// const {
+//   sendOTP
+// } = require("../MiddleWares/OTP");
 const express = require("express");
 const { User } = require("../Schemas/UserSchema");
 const bcrypt = require("bcrypt");
@@ -86,7 +86,7 @@ AuthRoute.post("/signup", async (req, res) => {
   }}
 });
 
-AuthRoute.post("/verify-email", sendOTP);
+// AuthRoute.post("/verify-email", sendOTP);
 
 AuthRoute.get("/", (req, res) => {
   console.log(req.cookies);
