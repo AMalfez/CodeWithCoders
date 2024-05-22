@@ -4,6 +4,7 @@ import axios from "axios";
 import AuthContext from "@/context/authContext";
 // import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { config } from "@/config";
 
 const Login = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const Login = () => {
     try {
       const response = await axios({
         method: "POST",
-        url: "http://localhost:5000/auth/login",
+        url: `${config.backend}/auth/login`,
         data: Data,
       });
       console.log(response.data);

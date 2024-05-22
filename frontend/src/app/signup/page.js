@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import AuthContext from "@/context/authContext";
 import { useRouter } from "next/navigation";
+import { config } from "@/config";
 
 const SignUp = () => {
   const router = useRouter();
@@ -40,7 +41,7 @@ const SignUp = () => {
     try {
       const response = await axios({
         method: "POST",
-        url: "http://localhost:5000/auth/signup", //url for post request
+        url: `${config.backend}/auth/signup`, //url for post request
         data: Data,
         withCredentials: true,
       });

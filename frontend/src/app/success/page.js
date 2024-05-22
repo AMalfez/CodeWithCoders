@@ -5,6 +5,7 @@ import QRCode from "qrcode";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import { config } from "@/config";
 
 function Success() {
   // const { user } = useContext(AuthContext);
@@ -22,11 +23,11 @@ function Success() {
 
   const GenerateQRCode = async () => {
     const res = await axios.post(
-      "http://localhost:5000/payment/success",
+      `${config.backend}/payment/success`,
       { userId, place, date, price }
       )
       console.log(res);
-    const url = `http://localhost:3000/ticket?ticket_number=${res.data.ticket_number}`
+    const url = `${config.frontend}/ticket?ticket_number=${res.data.ticket_number}`
     QRCode.toDataURL(
       url,
       {

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
+import { config } from "@/config";
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -26,7 +27,7 @@ const Dashboard = () => {
       "Content-Type": "application/json",
     };
     const response = await fetch(
-      "http://localhost:5000/payment/create-checkout-session",
+      `${config.backend}/payment/create-checkout-session`,
       {
         method: "POST",
         headers: header,

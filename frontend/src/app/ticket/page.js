@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from "next/navigation";
 import axios from 'axios';
+import { config } from '@/config';
 
 function page() {
     const searchParams = useSearchParams();
@@ -11,7 +12,7 @@ function page() {
       deleteTicket();
     }, [ticket_number])
     const deleteTicket = async()=>{
-        const dlt = await axios.delete(`http://localhost:5000/ticket/delete?ticket_number=${ticket_number}`)
+        const dlt = await axios.delete(`${config.backend}/ticket/delete?ticket_number=${ticket_number}`)
         if(dlt.status===200){
             setLoading("Ticket deleted successfully.")
         }else{
