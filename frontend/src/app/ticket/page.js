@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import axios from 'axios';
 import { config } from '@/config';
 
-function page() {
+function Ticket() {
     const searchParams = useSearchParams();
     const [loading,setLoading] = useState("Deleting ticket...")
     const ticket_number = searchParams.get('ticket_number');
@@ -26,4 +26,4 @@ function page() {
   )
 }
 
-export default page
+export default Ticket
